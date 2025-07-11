@@ -1,5 +1,5 @@
 # Project-Cooties
-## Jake A Lavey
+## Jake A Lacey
 
 ## Teaching and Training Resources for Genomic Epidemiology and Pathogen Genomics using Fictitious Diseases 
 
