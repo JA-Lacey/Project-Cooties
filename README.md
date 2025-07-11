@@ -3,9 +3,9 @@
 
 ## Teaching and Training Resources for Genomic Epidemiology and Pathogen Genomics using Fictitious Diseases 
 
-This resouce was inspired by the Genomic Epidemilogical Handbook written by Allison Black and Gytis Dudas https://alliblk.github.io/genepi-book/index.html, which provides a faulous background into the concepts and theory of genomic epemiology. WHere this resource comes diverts is providing to practial hands on genomic-epidemiolgoy analysis.  
+This resouce was inspired by the Genomic Epidemilogical Handbook written by Allison Black and Gytis Dudas https://alliblk.github.io/genepi-book/index.html, which provides a fabulous background into the concepts and theory of genomic epemiology. Where this resource diverts is providing to practial hands on genomic-epidemiolgoy analysis.  
 
-If you are interested in the history of epidemiology or if this is your very first exposure to genomic epidemiology i would recomend listeing to this epidsode of "This podcast will kill you" by the Erins https://thispodcastwillkillyou.com/2022/05/10/special-episode-on-the-origin-of-epidemiology/ and reading the book above. 
+If you are interested in the history of epidemiology or if this is your very first exposure to genomic epidemiology I would recomend listeing to this epidsode of "This podcast will kill you" by the Erins https://thispodcastwillkillyou.com/2022/05/10/special-episode-on-the-origin-of-epidemiology/ and reading the book above. 
 
 # Who is this resource for?
 
