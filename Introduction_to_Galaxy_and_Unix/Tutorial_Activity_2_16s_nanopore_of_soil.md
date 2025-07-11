@@ -34,17 +34,6 @@ conda create -n Soil16S_env \
 conda info --envs
 conda activate Soil16S_env
 
-```
-**This tutorial is modified from the galaxy project tutorials to provide a unix/command-line version of the tutorial.** 
-
-https://training.galaxyproject.org/training-material/topics/microbiome/tutorials/beer-data-analysis/tutorial.html#solution-8 
-```
-
-```
-**This tutorial is modified from the galaxy project tutorials to provide a unix/command-line version of the tutorial.** 
-
-https://training.galaxyproject.org/training-material/topics/microbiome/tutorials/beer-data-analysis/tutorial.html#solution-8 
-```
 
 *Tools installed:*
 
