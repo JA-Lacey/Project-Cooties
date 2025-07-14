@@ -53,8 +53,7 @@ conda activate Soil16S_env
 Organise your project under a root directory (e.g. `/Soil_16S_Nanopore`). Create subdirectories for raw reads, QC, processed reads, taxonomy, and visualisation:
 
 ```bash
-bash
-CopyEdit
+
 # Define project root
 export PROJECT_ROOT=/Soil_16S_Nanopore
 
@@ -77,7 +76,7 @@ Resulting structure:
 
 ```
 arduino
-CopyEdit
+
 /Soil_16S_Nanopore
 ├── data
 │   ├── reads           # raw downloads
@@ -102,8 +101,7 @@ CopyEdit
 Retrieve four soil samples (bulk and rhizosphere, top and bottom horizons):
 
 ```bash
-bash
-CopyEdit
+
 wget https://zenodo.org/record/4274812/files/bulk_bottom.fastq.gz
 wget https://zenodo.org/record/4274812/files/bulk_top.fastq.gz
 wget https://zenodo.org/record/4274812/files/rhizosphere_bottom.fastq.gz
@@ -114,8 +112,7 @@ wget https://zenodo.org/record/4274812/files/rhizosphere_top.fastq.gz
 Move or symlink these into your raw reads directory:
 
 ```bash
-bash
-CopyEdit
+
 mv *.fastq.gz $PROJECT_ROOT/data/reads/
 cd $PROJECT_ROOT/data/reads/
 
@@ -128,8 +125,7 @@ cd $PROJECT_ROOT/data/reads/
 Generate a tab-delimited manifest (`reads_paths.tab`) mapping each sample ID to its file path:
 
 ```bash
-bash
-CopyEdit
+
 # List all FASTQ files with full path
 find $PROJECT_ROOT/data/reads/ -name "*.fastq.gz" -exec realpath {} \; > reads_paths.txt
 
@@ -142,8 +138,7 @@ awk -F '/' '{ sub(/\.fastq\.gz$/, "", $NF); print $NF "\t" $0 }' reads_paths.txt
 Inspect with:
 
 ```bash
-bash
-CopyEdit
+
 head reads_paths.tab
 # Expected format:
 # bulk_bottom   /Soil_16S_Nanopore/data/reads/bulk_bottom.fastq.gz
@@ -160,8 +155,7 @@ head reads_paths.tab
 Run FastQC on each sample, outputting to `analysis/qc/fastqc_raw/`:
 
 ```bash
-bash
-CopyEdit
+
 while read sample path; do
   fastqc "$path" -o $PROJECT_ROOT/analysis/qc/fastqc_raw/"$sample" -t 8
 done < reads_paths.tab
@@ -173,8 +167,7 @@ done < reads_paths.tab
 Combine all FastQC reports into one HTML:
 
 ```bash
-bash
-CopyEdit
+
 cd $PROJECT_ROOT/analysis/qc/fastqc_raw/
 multiqc . -o ../multiqc_raw
 
@@ -187,8 +180,7 @@ multiqc . -o ../multiqc_raw
 ### 6.1 Adapter Removal with Porechop
 
 ```bash
-bash
-CopyEdit
+
 # In parallel
 cat $PROJECT_ROOT/data/reads/reads_paths.tab \
   | parallel -j 1 --colsep '\t' \
@@ -199,8 +191,7 @@ cat $PROJECT_ROOT/data/reads/reads_paths.tab \
 Or equivalently:
 
 ```bash
-bash
-CopyEdit
+
 while read sample path; do
   porechop -i "$path" \
            -o $PROJECT_ROOT/analysis/qc/porechop/"${sample}_trim.fastq" \
@@ -212,8 +203,7 @@ done < reads_paths.tab
 ### 6.2 Quality Filtering with Fastp
 
 ```bash
-bash
-CopyEdit
+
 while read sample path; do
   fastp \
     -i $PROJECT_ROOT/analysis/qc/porechop/"${sample}_trim.fastq" \
@@ -234,8 +224,7 @@ done < reads_paths.tab
 1. **Build new manifest** for filtered reads:
     
     ```bash
-    bash
-    CopyEdit
+    
     realpath $PROJECT_ROOT/analysis/qc/fastp/*.fastq > processed_reads_paths.txt
     awk -F '/' '{ sub(/\.fastq$/, "", $NF); print $NF "\t" $0 }' \
         processed_reads_paths.txt > processed_reads.tab
@@ -245,8 +234,7 @@ done < reads_paths.tab
 2. **FastQC on filtered reads**:
     
     ```bash
-    bash
-    CopyEdit
+
     mkdir -p $PROJECT_ROOT/analysis/qc/fastqc_processed/
     while read sample path; do
       fastqc "$path" -o $PROJECT_ROOT/analysis/qc/fastqc_processed/"$sample" -t 8
@@ -257,8 +245,7 @@ done < reads_paths.tab
 3. **MultiQC aggregation**:
     
     ```bash
-    bash
-    CopyEdit
+
     cd $PROJECT_ROOT/analysis/qc/fastqc_processed/
     multiqc . -o ../multiqc_processed
     
@@ -272,8 +259,7 @@ done < reads_paths.tab
 Navigate to the processed reads folder and gzip files to save space:
 
 ```bash
-bash
-CopyEdit
+
 cd $PROJECT_ROOT/analysis/qc/fastp/
 gzip *.fastq
 
@@ -282,8 +268,7 @@ gzip *.fastq
 *Optionally* move compressed files into your long-term storage directory:
 
 ```bash
-bash
-CopyEdit
+
 mv *.fastq.gz $PROJECT_ROOT/data/reads_processed/
 
 ```
@@ -295,8 +280,7 @@ mv *.fastq.gz $PROJECT_ROOT/data/reads_processed/
 Use a SILVA-based Kraken2 database located at `/home/mdu/resources/kraken2/rdp`.
 
 ```bash
-bash
-CopyEdit
+
 cat processed_reads.tab \
   | parallel -j 4 --colsep '\t' \
       'kraken2 {2} \
@@ -316,8 +300,7 @@ cat processed_reads.tab \
 Convert Kraken2 outputs into Krona-compatible counts:
 
 ```bash
-bash
-CopyEdit
+
 # Extract taxids and counts
 awk '$1 == "C" { for (i=1;i<=NF;i++) if ($i~/taxid/) { gsub(/[()]/,"",$(i+1)); print $(i+1); break } }' \
     $PROJECT_ROOT/analysis/taxonomy/kraken2/*_output.txt \
@@ -339,8 +322,7 @@ paste <(awk '{print $1}' taxid_counts.txt) \
 Finally, build the Krona chart:
 
 ```bash
-bash
-CopyEdit
+
 ktImportText krona_input.txt \
   -o $PROJECT_ROOT/analysis/visualisation/krona/soil16S_krona.html
 
